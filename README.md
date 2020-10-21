@@ -1,6 +1,8 @@
 # dnsping
 DNS Ping to check packet loss and latency issues with DNS servers
 
+If you have golang, easiest install is `go get -u fortio.org/dnsping`
+
 Sample run
 ```
 dnsping -c 8 -i 750ms www.google.com. 8.8.8.8 
