@@ -29,3 +29,5 @@ response time (in ms) : count 8 avg 301.32961 +/- 644.1 min 8.280587 max 2001.58
 # target 90% 2000.32
 # target 99% 2001.46
 ```
+
+Made thanks to https://github.com/miekg/dns (and https://github.com/fortio/fortio stats and logger)
