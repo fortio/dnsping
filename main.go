@@ -4,11 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
-	"fortio.org/fortio/stats"
-
 	"fortio.org/fortio/log"
+	"fortio.org/fortio/stats"
 	"github.com/miekg/dns"
 )
 
@@ -20,7 +21,7 @@ func usage() {
 func main() {
 	portFlag := flag.Int("p", 53, "`Port` to connect to")
 	intervalFlag := flag.Duration("i", 1*time.Second, "How long to `wait` between requests")
-	countFlag := flag.Int("c", 10, "How many `requests` to make")
+	countFlag := flag.Int("c", 0, "How many `requests` to make. Default is to run until ^C")
 	queryTypeFlag := flag.String("t", "A", "Query `type` to use (A, SOA, CNAME...)")
 	flag.Parse()
 	qt, exists := dns.StringToType[*queryTypeFlag]
@@ -35,16 +36,36 @@ func main() {
 		usage()
 	}
 	addrStr := fmt.Sprintf("%s:%d", args[1], *portFlag)
+	DNSPing(addrStr, args[0], qt, *countFlag, *intervalFlag)
+}
+
+// DNSPing Runs the query howMany times against addrStr server, sleeping for interval time.
+func DNSPing(addrStr, queryStr string, queryType uint16, howMany int, interval time.Duration) {
 	m := new(dns.Msg)
-	m.SetQuestion(args[0], qt)
-	log.Infof("Will query server: %s for %s (%d) record for %s", addrStr, *queryTypeFlag, qt, args[0])
+	m.SetQuestion(queryStr, queryType)
+	qtS := dns.TypeToString[queryType]
+	howManyStr := fmt.Sprintf("%d times", howMany)
+	if howMany <= 0 {
+		howManyStr = "until interrupted"
+	}
+	log.Infof("Will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
+		howManyStr, interval, addrStr, qtS, queryType, queryStr)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
 	stats := stats.NewHistogram(0, 0.1)
-	for i := 1; i <= *countFlag; i++ {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
+	continueRunning := true
+	for i := 1; continueRunning && (howMany <= 0 || i <= howMany); i++ {
 		if i != 1 {
-			time.Sleep(*intervalFlag)
+			select {
+			case <-ch:
+				continueRunning = false
+				fmt.Println()
+				continue
+			case <-time.After(interval):
+			}
 		}
 		start := time.Now()
 		r, err := dns.Exchange(m, addrStr)
