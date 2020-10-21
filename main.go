@@ -36,9 +36,15 @@ func main() {
 		usage()
 	}
 	addrStr := fmt.Sprintf("%s:%d", args[1], *portFlag)
+	DNSPing(addrStr, args[0], qt, *countFlag, *intervalFlag)
+}
+
+// DNSPing Runs the query howMany times against addrStr server, sleeping for interval time.
+func DNSPing(addrStr, queryStr string, queryType uint16, howMany int, interval time.Duration) {
 	m := new(dns.Msg)
-	m.SetQuestion(args[0], qt)
-	log.Infof("Will query server: %s for %s (%d) record for %s", addrStr, *queryTypeFlag, qt, args[0])
+	m.SetQuestion(queryStr, queryType)
+	qtS := dns.TypeToString[queryType]
+	log.Infof("Will query server: %s for %s (%d) record for %s", addrStr, qtS, queryType, queryStr)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
@@ -46,7 +52,6 @@ func main() {
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
 	continueRunning := true
-	howMany := *countFlag
 	for i := 1; continueRunning && (howMany <= 0 || i <= howMany); i++ {
 		if i != 1 {
 			select {
@@ -54,7 +59,7 @@ func main() {
 				continueRunning = false
 				fmt.Println()
 				continue
-			case <-time.After(*intervalFlag):
+			case <-time.After(interval):
 			}
 		}
 		start := time.Now()
