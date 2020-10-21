@@ -4,11 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
-	"fortio.org/fortio/stats"
-
 	"fortio.org/fortio/log"
+	"fortio.org/fortio/stats"
 	"github.com/miekg/dns"
 )
 
@@ -20,7 +21,7 @@ func usage() {
 func main() {
 	portFlag := flag.Int("p", 53, "`Port` to connect to")
 	intervalFlag := flag.Duration("i", 1*time.Second, "How long to `wait` between requests")
-	countFlag := flag.Int("c", 10, "How many `requests` to make")
+	countFlag := flag.Int("c", 0, "How many `requests` to make. Default is to run until ^C")
 	queryTypeFlag := flag.String("t", "A", "Query `type` to use (A, SOA, CNAME...)")
 	flag.Parse()
 	qt, exists := dns.StringToType[*queryTypeFlag]
@@ -42,9 +43,19 @@ func main() {
 	successCount := 0
 	errorCount := 0
 	stats := stats.NewHistogram(0, 0.1)
-	for i := 1; i <= *countFlag; i++ {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
+	continueRunning := true
+	howMany := *countFlag
+	for i := 1; continueRunning && (howMany <= 0 || i <= howMany); i++ {
 		if i != 1 {
-			time.Sleep(*intervalFlag)
+			select {
+			case <-ch:
+				continueRunning = false
+				fmt.Println()
+				continue
+			case <-time.After(*intervalFlag):
+			}
 		}
 		start := time.Now()
 		r, err := dns.Exchange(m, addrStr)
