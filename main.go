@@ -44,7 +44,12 @@ func DNSPing(addrStr, queryStr string, queryType uint16, howMany int, interval t
 	m := new(dns.Msg)
 	m.SetQuestion(queryStr, queryType)
 	qtS := dns.TypeToString[queryType]
-	log.Infof("Will query server: %s for %s (%d) record for %s", addrStr, qtS, queryType, queryStr)
+	howManyStr := fmt.Sprintf("%d times", howMany)
+	if howMany <= 0 {
+		howManyStr = "until interrupted"
+	}
+	log.Infof("Will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
+		howManyStr, interval, addrStr, qtS, queryType, queryStr)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
