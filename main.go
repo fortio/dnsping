@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"fortio.org/fortio/stats"
+
 	"fortio.org/fortio/log"
 	"github.com/miekg/dns"
 )
@@ -37,19 +39,39 @@ func main() {
 	m.SetQuestion(args[0], qt)
 	log.Infof("Will query server: %s for %s (%d) record for %s", addrStr, *queryTypeFlag, qt, args[0])
 	log.LogVf("Query is: %v", m)
+	successCount := 0
+	errorCount := 0
+	stats := stats.NewHistogram(0, 0.1)
 	for i := 1; i <= *countFlag; i++ {
+		if i != 1 {
+			time.Sleep(*intervalFlag)
+		}
+		start := time.Now()
 		r, err := dns.Exchange(m, addrStr)
+		durationMS := 1000. * time.Since(start).Seconds()
+		stats.Record(durationMS)
 		if err != nil {
-			log.Fatalf("failed to exchange: %v", err)
+			log.Errf("%6.1f ms %3d: failed call: %v", durationMS, i, err)
+			errorCount++
+			continue
 		}
 		if r == nil {
-			log.Fatalf("response is nil")
+			log.Critf("bug? dns response is nil")
+			errorCount++
+			continue
 		}
 		log.LogVf("response is %v", r)
 		if r.Rcode != dns.RcodeSuccess {
-			log.Errf("failed to get an valid answer: %v", r)
+			log.Errf("%6.1f ms %3d: server error: %v", durationMS, i, err)
+			errorCount++
+		} else {
+			successCount++
 		}
-		log.Infof("%d: %v", i, r.Answer)
-		time.Sleep(*intervalFlag)
+		log.Infof("%6.1f ms %3d: %v", durationMS, i, r.Answer)
 	}
+	perc := fmt.Sprintf("%.02f%%", 100.*float64(errorCount)/float64(errorCount+successCount))
+	fmt.Printf("%d errors (%s), %d success.\n", errorCount, perc, successCount)
+	res := stats.Export()
+	res.CalcPercentiles([]float64{50, 90, 99})
+	res.Print(os.Stdout, "response time (in ms)")
 }
