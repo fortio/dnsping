@@ -18,17 +18,17 @@ set -x
 set -e
 # Release tgz Dockerfile is based on the normal docker one
 cat Dockerfile release/Dockerfile.in > release/Dockerfile
-docker build -f release/Dockerfile -t fortio/fortio:release .
-DOCKERID=$(docker create --name fortio_release fortio/fortio:release x)
+docker build -f release/Dockerfile -t fortio/dnsping:release .
+DOCKERID=$(docker create --name dnsping_release fortio/dnsping:release x)
 function cleanup {
-  docker rm fortio_release
+  docker rm dnsping_release
 }
 trap cleanup EXIT
 set -o pipefail
 # docker cp will create 2 level of dir if first one exists, make sure it doesnt
 rm -f release/tgz/*
 rmdir release/tgz || true
-docker cp -a fortio_release:/tgz/ release/tgz
+docker cp -a dnsping_release:/tgz/ release/tgz
 # Check the tar balls and zips
 tar tvfz release/tgz/*.tgz
 unzip -l release/tgz/dnsping_mac*.zip

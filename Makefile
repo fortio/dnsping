@@ -36,8 +36,8 @@ local-lint:
 # Lint everything by default but ok to "make lint LINT_PACKAGES=./fhttp"
 LINT_PACKAGES:=./...
 lint:
-	docker run -v $(CURDIR):/go/src/fortio.org/fortio $(BUILD_IMAGE) bash -c \
-		"cd /go/src/fortio.org/fortio \
+	docker run -v $(CURDIR):/go/src/fortio.org/dnsping $(BUILD_IMAGE) bash -c \
+		"cd /go/src/fortio.org/dnsping \
 		&& time make local-lint DEBUG_LINTERS=\"$(DEBUG_LINTERS)\" LINT_PACKAGES=\"$(LINT_PACKAGES)\""
 
 coverage: dependencies
