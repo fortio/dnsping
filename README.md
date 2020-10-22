@@ -1,9 +1,15 @@
 # dnsping
-DNS Ping to check packet loss and latency issues with DNS servers
+DNS Ping checks packet loss and latency issues with DNS servers
+
+## Installation
 
 If you have golang, easiest install is `go get -u fortio.org/dnsping`
 
-Usage:
+Or with docker `docker run fortio/dnsping ...`
+
+Otherwise head over to https://github.com/fortio/dnsping/releases for binary release
+
+## Usage:
 `dnsping [flags] query server`
 
 ```Shell
