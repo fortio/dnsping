@@ -5,17 +5,20 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"sort"
 	"strings"
 	"syscall"
 	"time"
 
+	"fortio.org/dnsping/version"
 	"fortio.org/fortio/log"
 	"fortio.org/fortio/stats"
 	"github.com/miekg/dns"
 )
 
 func usage() {
-	fmt.Fprintln(flag.CommandLine.Output(), "Usage:\tdnsping [flags] query server\neg:\tdnsping www.google.com. 127.0.0.1\nWith flags:")
+	fmt.Fprintln(flag.CommandLine.Output(),
+		"dnsping "+version.Version+" usage:\n\tdnsping [flags] query server\neg:\tdnsping www.google.com. 127.0.0.1\nwith flags:")
 	flag.PrintDefaults()
 }
 
@@ -25,6 +28,7 @@ func main() {
 	timeoutFlag := flag.Duration("t", 700*time.Millisecond, "`Timeout` for each query")
 	countFlag := flag.Int("c", 0, "How many `requests` to make. Default is to run until ^C")
 	queryTypeFlag := flag.String("q", "A", "Query `type` to use (A, AAAA, SOA, CNAME...)")
+	versionFlag := flag.Bool("v", false, "Display version and exit.")
 	// make logger be less about debug by default
 	lcf := flag.Lookup("logcaller")
 	lcf.DefValue = "false"
@@ -34,19 +38,25 @@ func main() {
 	_ = lpf.Value.Set("")
 	flag.CommandLine.Usage = usage
 	flag.Parse()
-	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
-	if !exists {
-		keys := make([]string, len(dns.StringToType))
-		for k := range dns.StringToType {
-			keys = append(keys, k)
-		}
-		log.Errf("Invalid -q type name %q, should be one of %v", *queryTypeFlag, keys)
-		os.Exit(1)
-	}
 	args := flag.Args()
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
+	if *versionFlag || (nArgs > 0 && args[0] == "version") {
+		fmt.Println(version.Version)
+		os.Exit(0)
+	}
+	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
+	if !exists {
+		keys := []string{}
+		for k := range dns.StringToType {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+		log.Errf("Invalid -q type name %q, should be one of %v", *queryTypeFlag, keys)
+		os.Exit(1)
+	}
 	if nArgs != 2 {
+		fmt.Fprintf(os.Stderr, "Error: need exactly 2 arguments outside of the flags, got %d\n", nArgs)
 		usage()
 		os.Exit(1)
 	}
