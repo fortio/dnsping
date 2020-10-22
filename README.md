@@ -7,7 +7,7 @@ If you have golang, easiest install is `go get -u fortio.org/dnsping`
 
 Or with docker `docker run fortio/dnsping ...`
 
-Otherwise head over to https://github.com/fortio/dnsping/releases for binary release
+Otherwise head over to https://github.com/fortio/dnsping/releases for binary releases
 
 ## Usage:
 `dnsping [flags] query server`
