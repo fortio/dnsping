@@ -205,7 +205,11 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		log.Infof(format+"%v", durationMS, i, r.Answer)
 	}
 	perc := fmt.Sprintf("%.02f%%", 100.*float64(errorCount)/float64(errorCount+successCount))
-	fmt.Printf("%d errors (%s), %d success.\n", errorCount, perc, successCount)
+	plural := "s" // 0 errors 1 error 2 errors...
+	if errorCount == 1 {
+		plural = ""
+	}
+	fmt.Printf("%d error%s (%s), %d success.\n", errorCount, plural, perc, successCount)
 	res := stats.Export()
 	res.CalcPercentiles([]float64{50, 90, 99})
 	res.Print(os.Stdout, "response time (in ms)")

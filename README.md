@@ -47,7 +47,7 @@ dnsping -fixed-id 42 -json sampleResult.json -c 8  www.google.com 8.8.4.4
 16:08:08 I  13.5 ms   6: [www.google.com.	196	IN	A	216.58.194.196]
 16:08:09 I  14.8 ms   7: [www.google.com.	179	IN	A	216.58.194.196]
 16:08:10 I  15.5 ms   8: [www.google.com.	285	IN	A	172.217.6.68]
-1 errors (12.50%), 7 success.
+1 error (12.50%), 7 success.
 response time (in ms) : count 8 avg 99.792926 +/- 227 min 8.684216 max 700.257965 sum 798.343406
 # range, mid point, percentile, count
 >= 8.68422 <= 9 , 8.84211 , 12.50, 1
