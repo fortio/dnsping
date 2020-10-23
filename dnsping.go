@@ -11,15 +11,16 @@ import (
 	"syscall"
 	"time"
 
-	"fortio.org/dnsping/version"
 	"fortio.org/fortio/log"
 	"fortio.org/fortio/stats"
 	"github.com/miekg/dns"
 )
 
+var Version = "dev" // replaced at build (release) time using git tag
+
 func usage() {
 	fmt.Fprintln(flag.CommandLine.Output(),
-		"dnsping "+version.Version+" usage:\n\tdnsping [flags] query server\neg:\tdnsping www.google.com. 127.0.0.1\nwith flags:")
+		"dnsping "+Version+" usage:\n\tdnsping [flags] query server\neg:\tdnsping www.google.com. 127.0.0.1\nwith flags:")
 	flag.PrintDefaults()
 }
 
@@ -66,7 +67,7 @@ func main() {
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
 	if *versionFlag || (nArgs > 0 && args[0] == "version") {
-		fmt.Println(version.Version)
+		fmt.Println(Version)
 		os.Exit(0)
 	}
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]

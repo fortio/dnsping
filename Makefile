@@ -81,7 +81,7 @@ VERSION ?= $(shell git describe --tags --match 'v*' --dirty)
 # Main/default binary to build: (can be changed to build fcurl or echosrv instead)
 OFFICIAL_TARGET := fortio.org/dnsping
 
-LINK_FLAGS="-s -X fortio.org/dnsping/version.Version=$(VERSION)"
+LINK_FLAGS="-s -X main.Version=$(VERSION)"
 
 .PHONY: official-build official-build-version official-build-clean
 
