@@ -164,8 +164,8 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 	if howMany <= 0 {
 		howManyStr = "until interrupted"
 	}
-	log.Infof("Will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
-		howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
+	log.Infof("dnsping %s: will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
+		Version, howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
