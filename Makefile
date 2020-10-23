@@ -1,7 +1,7 @@
 # Makefile to build dnsping's docker images as well as short cut
 # for local test/install
 #
-# See also release/README.md
+# See also release/release.sh and fortio's release/Readme.md
 #
 
 DOCKER_PREFIX := docker.io/fortio/dnsping
