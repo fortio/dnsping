@@ -30,7 +30,8 @@ import (
 	"github.com/miekg/dns"
 )
 
-var Version = "dev" // replaced at build (release) time using git tag
+// Version is the version of the command, replace at link time to match the git tag for release builds.
+var Version = "dev"
 
 func usage() {
 	fmt.Fprintln(flag.CommandLine.Output(),
@@ -38,6 +39,7 @@ func usage() {
 	flag.PrintDefaults()
 }
 
+// DNSPingConfig is the input configuration for DNSPing().
 type DNSPingConfig struct {
 	Server        string        // Server to send query to
 	Query         string        // Query to send
@@ -50,6 +52,7 @@ type DNSPingConfig struct {
 	Recursion     bool          // DNS recursion requested or not
 }
 
+// DNSPingResults is the aggregated results of the DNSPing() call including input. Ready for JSON serialization.
 type DNSPingResults struct {
 	Config  *DNSPingConfig
 	Errors  int
@@ -123,6 +126,7 @@ func main() {
 	JSONSave(r, *jsonFlag)
 }
 
+// JSONSave exports a result into a json file (or stdpout if - is passed).
 // TODO refactor from fortio's main.
 func JSONSave(res *DNSPingResults, jsonFileName string) {
 	var j []byte
