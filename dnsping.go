@@ -72,12 +72,7 @@ func main() {
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
 	// make logger be less about debug by default
-	lcf := flag.Lookup("logcaller")
-	lcf.DefValue = "false"
-	_ = lcf.Value.Set("false")
-	lpf := flag.Lookup("logprefix")
-	lpf.DefValue = ""
-	_ = lpf.Value.Set("")
+	log.SetFlagDefaultsForClientTools()
 	flag.CommandLine.Usage = usage
 	flag.Parse()
 	args := flag.Args()
