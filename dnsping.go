@@ -97,7 +97,12 @@ func main() {
 		usage()
 		os.Exit(1)
 	}
-	addrStr := fmt.Sprintf("%s:%d", args[1], *portFlag)
+	server := args[1]
+	if strings.Contains(server, ":") && !strings.HasPrefix(server, "[") {
+		server = "[" + server + "]"
+		log.Infof("Adding [] around detected input IPv6 server ip info: %s", server)
+	}
+	addrStr := fmt.Sprintf("%s:%d", server, *portFlag)
 	query := args[0]
 	if !strings.HasSuffix(query, ".") {
 		query = query + "."
