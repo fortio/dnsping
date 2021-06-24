@@ -21,7 +21,7 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 
 ```Shell
 $ dnsping -h
-dnsping v1.1.0 usage:
+dnsping v1.1.5 usage:
 	dnsping [flags] query server
 eg:	dnsping www.google.com. 127.0.0.1
 with flags:
