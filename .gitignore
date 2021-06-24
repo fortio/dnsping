@@ -11,3 +11,4 @@
 # above is github's default for golang, actual:
 dnsping
 .DS_Store
+*.bak

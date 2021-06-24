@@ -1,5 +1,5 @@
 # Concatenated after ../Dockerfile to create the tgz
-FROM docker.io/fortio/fortio.build:v27 as stage
+FROM docker.io/fortio/fortio.build:v34 as stage
 WORKDIR /stage
 COPY --from=release /usr/bin/dnsping usr/bin/dnsping
 COPY dnsping.1 usr/share/man/man1/dnsping.1

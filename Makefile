@@ -5,7 +5,7 @@
 #
 
 DOCKER_PREFIX := docker.io/fortio/dnsping
-BUILD_IMAGE_TAG := v27
+BUILD_IMAGE_TAG := v34
 BUILD_IMAGE :=  docker.io/fortio/fortio.build:$(BUILD_IMAGE_TAG)
 
 TAG:=$(USER)$(shell date +%y%m%d_%H%M%S)
@@ -53,8 +53,11 @@ all: test go-install lint docker-version docker-push-internal
 # When changing the build image, this Makefile should be edited first
 # (bump BUILD_IMAGE_TAG), also change this list if the image is used in
 # more places.
-FILES_WITH_IMAGE:= .circleci/config.yml Dockerfile Dockerfile.echosrv \
-	Dockerfile.test Dockerfile.fcurl release/Dockerfile.in Webtest.sh
+FILES_WITH_IMAGE:= Dockerfile release/Dockerfile.in
+
+update-build-image-tag:
+	@echo 'Need to use gnu sed (brew install gnu-sed; PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$$PATH")'
+	sed --in-place=.bak -e 's!docker.io/fortio/fortio.build:v..!$(BUILD_IMAGE)!g' $(FILES_WITH_IMAGE)
 
 docker-internal: dependencies
 	@echo "### Now building $(DOCKER_TAG)"

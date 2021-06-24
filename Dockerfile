@@ -1,5 +1,5 @@
 # Build the binaries in larger image
-FROM docker.io/fortio/fortio.build:v27 as build
+FROM docker.io/fortio/fortio.build:v34 as build
 WORKDIR /build
 COPY . dnsping
 # We moved a lot of the logic into the Makefile so it can be reused in brew
