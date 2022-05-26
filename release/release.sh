@@ -18,7 +18,8 @@ set -x
 set -e
 # Release tgz Dockerfile is based on the normal docker one
 cat Dockerfile release/Dockerfile.in > release/Dockerfile
-docker build -f release/Dockerfile -t fortio/dnsping:release .
+# build x64 for now even from m1 mac
+docker buildx build --platform linux/amd64 --load -f release/Dockerfile -t fortio/dnsping:release .
 DOCKERID=$(docker create --name dnsping_release fortio/dnsping:release x)
 function cleanup {
   docker rm dnsping_release

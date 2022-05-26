@@ -18,13 +18,10 @@ PACKAGES ?= $(shell go list ./...)
 go-install:
 	go install $(PACKAGES)
 
-# Run/test dependencies
-dependencies:
-
 TEST_TIMEOUT:=90s
 
 # Local test
-test: dependencies
+test:
 	go test -timeout $(TEST_TIMEOUT) -race $(PACKAGES)
 
 # To debug strange linter errors, uncomment
@@ -40,7 +37,7 @@ lint:
 		"cd /go/src/fortio.org/dnsping \
 		&& time make local-lint DEBUG_LINTERS=\"$(DEBUG_LINTERS)\" LINT_PACKAGES=\"$(LINT_PACKAGES)\""
 
-coverage: dependencies
+coverage:
 	./.circleci/coverage.sh
 	curl -s https://codecov.io/bash | bash
 
@@ -61,7 +58,11 @@ update-build-image-tag:
 	@echo 'Need to use gnu sed (brew install gnu-sed; PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$$PATH")'
 	$(SED) --in-place=.bak -e 's!docker.io/fortio/fortio.build:v..!$(BUILD_IMAGE)!g' $(FILES_WITH_IMAGE)
 
-docker-internal: dependencies
+# New multi arch way:
+docker-buildx:
+	docker buildx build --platform linux/amd64,linux/arm64 --tag $(DOCKER_TAG) --push .
+
+docker-internal:
 	@echo "### Now building $(DOCKER_TAG)"
 	docker build -f Dockerfile$(IMAGE) -t $(DOCKER_TAG) .
 
@@ -72,7 +73,7 @@ docker-push-internal: docker-internal
 release:
 	release/release.sh
 
-.PHONY: all docker-internal docker-push-internal docker-version test dependencies
+.PHONY: all docker-internal docker-push-internal docker-version test
 
 .PHONY: go-install lint install-linters coverage webtest release-test update-build-image
 
