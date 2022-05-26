@@ -27,6 +27,7 @@ import (
 
 	"fortio.org/fortio/log"
 	"fortio.org/fortio/stats"
+	"fortio.org/fortio/version"
 	"github.com/miekg/dns"
 )
 
@@ -73,13 +74,15 @@ func main() {
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
 	// make logger be less about debug by default
 	log.SetFlagDefaultsForClientTools()
+	var fullVersion string
+	Version, _, fullVersion = version.FromBuildInfo()
 	flag.CommandLine.Usage = usage
 	flag.Parse()
 	args := flag.Args()
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
 	if *versionFlag || (nArgs > 0 && args[0] == "version") {
-		fmt.Println(Version) // nolint: forbidigo
+		fmt.Println(fullVersion) // nolint: forbidigo
 		os.Exit(0)
 	}
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]

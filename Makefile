@@ -85,14 +85,14 @@ GO_BIN := go
 VERSION ?= $(shell git describe --tags --match 'v*' --dirty)
 # Main/default binary to build: (can be changed to build fcurl or echosrv instead)
 OFFICIAL_TARGET := fortio.org/dnsping
-
-LINK_FLAGS="-s -X main.Version=$(VERSION)"
+BUILD_DIR := /tmp/dnsping_build
 
 .PHONY: official-build official-build-version official-build-clean
 
 official-build:
 	$(GO_BIN) version
-	CGO_ENABLED=0 GOOS=$(GOOS) $(GO_BIN) build -a -ldflags $(LINK_FLAGS) -o $(OFFICIAL_BIN) $(OFFICIAL_TARGET)
+	GOPATH=$(BUILD_DIR) CGO_ENABLED=0 GOOS=$(GOOS) GOOARCH=$(GOOARCH) $(GO_BIN) install -a -ldflags -s $(OFFICIAL_TARGET)@$(VERSION)
+	mv $(find $(BUILD_DIR)/bin -type f -name "fortio*") $(OFFICIAL_BIN)
 
 official-build-version: official-build
 	$(OFFICIAL_BIN) version
