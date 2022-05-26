@@ -81,7 +81,12 @@ func main() {
 	args := flag.Args()
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
-	if *versionFlag || (nArgs > 0 && args[0] == "version") {
+	if *versionFlag {
+		// Short version, used by the build system
+		fmt.Println(Version) // nolint: forbidigo
+		os.Exit(0)
+	}
+	if nArgs > 0 && args[0] == "version" {
 		fmt.Print(fullVersion) // nolint: forbidigo
 		os.Exit(0)
 	}
