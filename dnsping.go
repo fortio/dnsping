@@ -82,7 +82,7 @@ func main() {
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
 	if *versionFlag || (nArgs > 0 && args[0] == "version") {
-		fmt.Println(fullVersion) // nolint: forbidigo
+		fmt.Print(fullVersion) // nolint: forbidigo
 		os.Exit(0)
 	}
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]

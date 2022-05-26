@@ -92,7 +92,8 @@ BUILD_DIR := /tmp/dnsping_build
 official-build:
 	$(GO_BIN) version
 	GOPATH=$(BUILD_DIR) CGO_ENABLED=0 GOOS=$(GOOS) GOOARCH=$(GOOARCH) $(GO_BIN) install -a -ldflags -s $(OFFICIAL_TARGET)@$(VERSION)
-	mv $(find $(BUILD_DIR)/bin -type f -name "fortio*") $(OFFICIAL_BIN)
+	mkdir -p $(dir $(OFFICIAL_BIN))
+	mv $(shell find $(BUILD_DIR)/bin -type f -name "dnsping*") $(OFFICIAL_BIN)
 
 official-build-version: official-build
 	$(OFFICIAL_BIN) version
