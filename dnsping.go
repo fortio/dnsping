@@ -79,7 +79,7 @@ func main() {
 	nArgs := len(args)
 	log.LogVf("got %d arguments: %v", nArgs, args)
 	if *versionFlag || (nArgs > 0 && args[0] == "version") {
-		fmt.Println(Version)
+		fmt.Println(Version) // nolint: forbidigo
 		os.Exit(0)
 	}
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
@@ -189,7 +189,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 			select {
 			case <-ch:
 				continueRunning = false
-				fmt.Println()
+				fmt.Println() // nolint: forbidigo
 				continue
 			case <-time.After(waitFor):
 			}
@@ -228,7 +228,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 	if errorCount == 1 {
 		plural = ""
 	}
-	fmt.Printf("%d error%s (%s), %d success.\n", errorCount, plural, perc, successCount)
+	fmt.Printf("%d error%s (%s), %d success.\n", errorCount, plural, perc, successCount) // nolint: forbidigo
 	res := stats.Export()
 	res.CalcPercentiles([]float64{50, 90, 99})
 	res.Print(os.Stdout, "response time (in ms)")

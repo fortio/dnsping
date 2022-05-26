@@ -5,7 +5,7 @@
 #
 
 DOCKER_PREFIX := docker.io/fortio/dnsping
-BUILD_IMAGE_TAG := v34
+BUILD_IMAGE_TAG := v40
 BUILD_IMAGE :=  docker.io/fortio/fortio.build:$(BUILD_IMAGE_TAG)
 
 TAG:=$(USER)$(shell date +%y%m%d_%H%M%S)
@@ -55,9 +55,11 @@ all: test go-install lint docker-version docker-push-internal
 # more places.
 FILES_WITH_IMAGE:= Dockerfile release/Dockerfile.in
 
+SED:=sed
+
 update-build-image-tag:
 	@echo 'Need to use gnu sed (brew install gnu-sed; PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$$PATH")'
-	sed --in-place=.bak -e 's!docker.io/fortio/fortio.build:v..!$(BUILD_IMAGE)!g' $(FILES_WITH_IMAGE)
+	$(SED) --in-place=.bak -e 's!docker.io/fortio/fortio.build:v..!$(BUILD_IMAGE)!g' $(FILES_WITH_IMAGE)
 
 docker-internal: dependencies
 	@echo "### Now building $(DOCKER_TAG)"
@@ -78,7 +80,7 @@ release:
 
 # Targets used for official builds (initially from Dockerfile)
 OFFICIAL_BIN := ../fortio.bin
-GOOS := 
+GOOS :=
 GO_BIN := go
 VERSION ?= $(shell git describe --tags --match 'v*' --dirty)
 # Main/default binary to build: (can be changed to build fcurl or echosrv instead)
@@ -91,7 +93,7 @@ LINK_FLAGS="-s -X main.Version=$(VERSION)"
 official-build:
 	$(GO_BIN) version
 	CGO_ENABLED=0 GOOS=$(GOOS) $(GO_BIN) build -a -ldflags $(LINK_FLAGS) -o $(OFFICIAL_BIN) $(OFFICIAL_TARGET)
-	
+
 official-build-version: official-build
 	$(OFFICIAL_BIN) version
 
