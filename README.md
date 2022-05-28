@@ -12,7 +12,7 @@ If you have golang, easiest install is `go install fortio.org/dnsping@latest`
 
 Or with docker `docker run fortio/dnsping ...`
 
-Or brew custom tap source build `brew install fortio/dnsping/dnsping` (please star the project so it can go in core and get binary bottles built)
+Or brew custom tap source build `brew install fortio/tap/dnsping` (please star the project so it can go in core and get binary bottles built)
 
 Otherwise head over to https://github.com/fortio/dnsping/releases for binary releases
 
