@@ -12,3 +12,5 @@
 dnsping
 .DS_Store
 *.bak
+.vscode
+dist/
