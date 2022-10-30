@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	fortio.org/fortio v1.32.3
-	github.com/miekg/dns v1.1.49
+	github.com/miekg/dns v1.1.50
 )
 
 require (
