@@ -62,6 +62,10 @@ type DNSPingResults struct {
 }
 
 func main() {
+	os.Exit(Main())
+}
+
+func Main() int {
 	jsonFlag := flag.String("json", "", "Json output to provided file `path` or '-' for stdout (empty = no json output)")
 	portFlag := flag.Int("p", 53, "`Port` to connect to")
 	intervalFlag := flag.Duration("i", 1*time.Second, "How long to `wait` between requests")
@@ -83,12 +87,12 @@ func main() {
 	log.LogVf("got %d arguments: %v", nArgs, args)
 	if *versionFlag {
 		// Short version, used by the build system
-		fmt.Println(Version) // nolint: forbidigo
-		os.Exit(0)
+		fmt.Println(Version)
+		return 0
 	}
 	if nArgs > 0 && args[0] == "version" {
-		fmt.Print(fullVersion) // nolint: forbidigo
-		os.Exit(0)
+		fmt.Print(fullVersion)
+		return 0
 	}
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
 	if !exists {
@@ -97,13 +101,12 @@ func main() {
 			keys = append(keys, k)
 		}
 		sort.Strings(keys)
-		log.Errf("Invalid -q type name %q, should be one of %v", *queryTypeFlag, keys)
-		os.Exit(1)
+		return log.FErrf("Invalid -q type name %q, should be one of %v", *queryTypeFlag, keys)
 	}
 	if nArgs != 2 {
 		fmt.Fprintf(os.Stderr, "Error: need exactly 2 arguments outside of the flags, got %d\n", nArgs)
 		usage()
-		os.Exit(1)
+		return 1
 	}
 	server := args[1]
 	if strings.Contains(server, ":") && !strings.HasPrefix(server, "[") {
@@ -113,7 +116,7 @@ func main() {
 	addrStr := fmt.Sprintf("%s:%d", server, *portFlag)
 	query := args[0]
 	if !strings.HasSuffix(query, ".") {
-		query = query + "."
+		query += "."
 		log.LogVf("Adding missing . to query, now %q", query)
 	}
 	cfg := DNSPingConfig{
@@ -129,18 +132,18 @@ func main() {
 	}
 	r := DNSPing(&cfg)
 	if *jsonFlag == "" {
-		os.Exit(0)
+		return 0
 	}
-	JSONSave(r, *jsonFlag)
+	return JSONSave(r, *jsonFlag)
 }
 
 // JSONSave exports a result into a json file (or stdpout if - is passed).
 // TODO refactor from fortio's main.
-func JSONSave(res *DNSPingResults, jsonFileName string) {
+func JSONSave(res *DNSPingResults, jsonFileName string) int {
 	var j []byte
 	j, err := json.MarshalIndent(res, "", "  ")
 	if err != nil {
-		log.Fatalf("Unable to json serialize result: %v", err)
+		return log.FErrf("Unable to json serialize result: %v", err)
 	}
 	var f *os.File
 	if jsonFileName == "-" {
@@ -149,20 +152,21 @@ func JSONSave(res *DNSPingResults, jsonFileName string) {
 	} else {
 		f, err = os.Create(jsonFileName)
 		if err != nil {
-			log.Fatalf("Unable to create %s: %v", jsonFileName, err)
+			return log.FErrf("Unable to create %s: %v", jsonFileName, err)
 		}
 	}
 	n, err := f.Write(append(j, '\n'))
 	if err != nil {
-		log.Fatalf("Unable to write json to %s: %v", jsonFileName, err)
+		return log.FErrf("Unable to write json to %s: %v", jsonFileName, err)
 	}
 	if f != os.Stdout {
 		err := f.Close()
 		if err != nil {
-			log.Fatalf("Close error for %s: %v", jsonFileName, err)
+			return log.FErrf("Close error for %s: %v", jsonFileName, err)
 		}
 	}
 	_, _ = fmt.Fprintf(os.Stderr, "Successfully wrote %d bytes of Json data to %s\n", n, jsonFileName)
+	return 0
 }
 
 // DNSPing Runs the query howMany times against addrStr server, sleeping for interval time.
@@ -197,7 +201,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 			select {
 			case <-ch:
 				continueRunning = false
-				fmt.Println() // nolint: forbidigo
+				fmt.Println()
 				continue
 			case <-time.After(waitFor):
 			}
@@ -236,7 +240,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 	if errorCount == 1 {
 		plural = ""
 	}
-	fmt.Printf("%d error%s (%s), %d success.\n", errorCount, plural, perc, successCount) // nolint: forbidigo
+	fmt.Printf("%d error%s (%s), %d success.\n", errorCount, plural, perc, successCount)
 	res := stats.Export()
 	res.CalcPercentiles([]float64{50, 90, 99})
 	res.Print(os.Stdout, "response time (in ms)")
