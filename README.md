@@ -1,7 +1,7 @@
 # DNSping
 [![PkgGoDev](https://pkg.go.dev/badge/fortio.org/dnsping?tab=overview)](https://pkg.go.dev/fortio.org/dnsping?tab=overview)
 [![Go Report Card](https://goreportcard.com/badge/fortio.org/dnsping)](https://goreportcard.com/report/fortio.org/dnsping)
-[![Docker Build](https://img.shields.io/docker/cloud/build/fortio/dnsping.svg)](https://hub.docker.com/r/fortio/dnsping)
+[![codecov](https://codecov.io/github/fortio/dnsping/branch/main/graph/badge.svg?token=3MKLNMPDSD)](https://codecov.io/github/fortio/dnsping)
 [![Docker Pulls](https://img.shields.io/docker/pulls/fortio/dnsping.svg)](https://hub.docker.com/r/fortio/dnsping)
 
 DNS Ping checks packet loss and latency issues with DNS servers

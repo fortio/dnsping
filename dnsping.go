@@ -230,6 +230,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		if r.Rcode != dns.RcodeSuccess {
 			log.Errf(format+"server error: %v", durationMS, i, err)
 			errorCount++
+			continue
 		} else {
 			successCount++
 		}
