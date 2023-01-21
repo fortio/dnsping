@@ -1,0 +1,81 @@
+# testscript framework tests for dnsping command line
+
+# Basic usage test
+! dnsping
+! stdout .
+stderr 'need exactly 2 arguments outside of the flags, got 0'
+
+# (short) version
+dnsping -v
+stdout 'dev'
+! stderr .
+
+# (long) version
+dnsping version
+stdout 'path	fortio.org/dnsping'
+! stderr .
+
+# bad -q type
+! dnsping -q foo www.google.com 8.8.8.8
+! stdout .
+stderr 'F Invalid -q type name "foo", should be one of'
+
+# good -q type
+dnsping -c 1 -q aaaa www.google.com 8.8.8.8
+stderr 'IN\tAAAA'
+stdout '0 errors'
+
+# ipv6 server
+dnsping -c 1 www.google.com 2001:4860:4860::8888
+stderr 'Adding \[] around detected input IPv6 server ip info: \[2001:4860:4860::8888]'
+
+# -foo (bad flag)
+! dnsping -foo
+! stdout .
+stderr 'flag provided but not defined: -foo'
+
+# basic test
+dnsping -c 2 www.google.com 8.8.8.8
+stderr 'will query 2 times, sleeping 1s in between, the server 8\.8\.8\.8:53 for A \(1\) record for www\.google\.com\.'
+stdout '0 errors \(0.00%\), 2 success.'
+
+
+# fixed id
+dnsping -loglevel debug -c 1 -fixed-id 42 www.google.com 8.8.8.8
+stderr 'id: 42'
+
+# sequential id
+dnsping -loglevel debug -c 2 -sequential-id www.google.com 8.8.8.8
+stderr 'id: 1'
+stderr 'id: 2'
+
+# error (without plural)
+dnsping -c 1 doesnnotexist.fortio.org  8.8.8.8
+stdout '1 error \(100.00%\), 0 success.'
+stderr 'server error'
+! stderr '1: \[]'
+
+# json stdout
+dnsping -c 1 -json - www.google.com 8.8.8.8
+stdout '"HowMany": 1,'
+stderr 'Successfully wrote .* bytes of Json data to stdout'
+
+# json can't write to file
+chmod 000 notwriteable.json
+! dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
+stderr 'F Unable to create notwriteable.json: open notwriteable.json: permission denied'
+
+# json writing to file
+dnsping -c 1 -json ok.json www.google.com 8.8.8.8
+stderr 'Successfully wrote .* bytes of Json data to ok\.json'
+grep '"Server": "8.8.8.8:53",' ok.json
+
+# how to do this
+dnsping www.google.com 8.8.8.8 &
+exec sleep 3
+exec pkill dnsping # todo want something like kill %1 instead
+wait
+stderr 'will query until interrupted'
+stdout '0 errors \(0.00%\), [34] success.'
+
+-- notwriteable.json --
