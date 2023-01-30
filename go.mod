@@ -3,7 +3,7 @@ module fortio.org/dnsping
 go 1.18
 
 require (
-	fortio.org/fortio v1.39.2-cli1
+	fortio.org/fortio v1.40.0
 	github.com/miekg/dns v1.1.50
 	github.com/rogpeppe/go-internal v1.9.0
 )
