@@ -21,7 +21,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 'stable'
+          go-version: '1.19'
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # pin@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
