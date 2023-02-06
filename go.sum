@@ -1,6 +1,6 @@
 fortio.org/assert v1.1.2 h1:t6WGDqPD5VFrUvx30U0+3mgXXcoPonrdKqt0vfJHn8E=
-fortio.org/fortio v1.39.2-cli1 h1:O6SDeglp5yTbrAxQbdJGnX6IzAxyTGbC6gIkNCoXvqA=
-fortio.org/fortio v1.39.2-cli1/go.mod h1:uzkrDwdevxraL6pA/jIbuI8JQkEUXd+5tmDk5uqKl0M=
+fortio.org/fortio v1.40.1 h1:D1H+5aOnauTr4WTnopHl1MhSZt/l0Asi3ZEqkpBwT0c=
+fortio.org/fortio v1.40.1/go.mod h1:5dREibidWcceopnW8t1z2PKq6IKCSZaii6lEuYJdKMs=
 github.com/miekg/dns v1.1.50 h1:DQUfb9uc6smULcREF09Uc+/Gd46YWqJd5DbpPE9xkcA=
 github.com/miekg/dns v1.1.50/go.mod h1:e3IlAVfNqAllflbibAZEWOXOQ+Ynzk/dDozDxY7XnME=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e h1:aoZm08cpOy4WuID//EZDgcC4zIxODThtZNPirFr42+A=
