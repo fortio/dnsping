@@ -13,6 +13,6 @@ func TestMain(m *testing.M) {
 	}))
 }
 
-func TestDelta(t *testing.T) {
+func TestDNSPing(t *testing.T) {
 	testscript.Run(t, testscript.Params{Dir: "./"})
 }
