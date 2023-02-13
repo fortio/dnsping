@@ -19,6 +19,9 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 ## Usage:
 `dnsping [flags] query server`
 
+<!-- generate using
+go run . -h 2>&1 | expand | fold -s | sed -e "s/ $//" -e "s/</\&lt;/"
+-->
 ```Shell
 $ dnsping -h
 dnsping 1.3.0 usage:
@@ -35,8 +38,8 @@ with flags:
         Json output to provided file path or '-' for stdout (empty = no json
 output)
   -loglevel level
-        logging level, one of [Debug Verbose Info Warning Error Critical Fatal]
-(default "Info")
+        log level, one of [Debug Verbose Info Warning Error Critical Fatal]
+(default Info)
   -no-recursion
         Pass to disable (default) recursion.
   -p Port
