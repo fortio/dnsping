@@ -20,7 +20,7 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 `dnsping [flags] query server`
 
 <!-- generate using
-go run . -h 2>&1 | expand | fold -s | sed -e "s/ $//" -e "s/</\&lt;/"
+go run . -h 2>&1 | expand | fold -s -w 90 | sed -e "s/ $//" -e "s/</\&lt;/"
 -->
 ```Shell
 $ dnsping -h
@@ -35,11 +35,9 @@ with flags:
   -i wait
         How long to wait between requests (default 1s)
   -json path
-        Json output to provided file path or '-' for stdout (empty = no json
-output)
+        Json output to provided file path or '-' for stdout (empty = no json output)
   -loglevel level
-        log level, one of [Debug Verbose Info Warning Error Critical Fatal]
-(default Info)
+        log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
   -no-recursion
         Pass to disable (default) recursion.
   -p Port
