@@ -25,9 +25,9 @@ import (
 	"syscall"
 	"time"
 
-	"fortio.org/fortio/log"
 	"fortio.org/fortio/stats"
-	"fortio.org/fortio/version"
+	"fortio.org/log"
+	"fortio.org/version"
 	"github.com/miekg/dns"
 )
 
@@ -77,7 +77,8 @@ func Main() int {
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
 	// make logger be less about debug by default
-	log.SetFlagDefaultsForClientTools()
+	log.SetDefaultsForClientTools()
+	log.LoggerStaticFlagSetup()
 	var fullVersion string
 	Version, _, fullVersion = version.FromBuildInfo()
 	flag.CommandLine.Usage = usage

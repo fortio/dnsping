@@ -19,33 +19,36 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 ## Usage:
 `dnsping [flags] query server`
 
+<!-- generate using
+go run . -h 2>&1 | expand | fold -s -w 90 | sed -e "s/ $//" -e "s/</\&lt;/"
+-->
 ```Shell
 $ dnsping -h
-dnsping v1.1.5 usage:
-	dnsping [flags] query server
-eg:	dnsping www.google.com. 127.0.0.1
+dnsping 1.3.0 usage:
+        dnsping [flags] query server
+eg:     dnsping www.google.com. 127.0.0.1
 with flags:
   -c requests
-    	How many requests to make. Default is to run until ^C
+        How many requests to make. Default is to run until ^C
   -fixed-id int
-    	Non 0 id to use instead of random or sequential
+        Non 0 id to use instead of random or sequential
   -i wait
-    	How long to wait between requests (default 1s)
+        How long to wait between requests (default 1s)
   -json path
-    	Json output to provided file path or '-' for stdout (empty = no json output)
-  -loglevel value
-    	loglevel, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
+        Json output to provided file path or '-' for stdout (empty = no json output)
+  -loglevel level
+        log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
   -no-recursion
-    	Pass to disable (default) recursion.
+        Pass to disable (default) recursion.
   -p Port
-    	Port to connect to (default 53)
+        Port to connect to (default 53)
   -q type
-    	Query type to use (A, AAAA, SOA, CNAME...) (default "A")
+        Query type to use (A, AAAA, SOA, CNAME...) (default "A")
   -sequential-id
-    	Use sequential ids instead of random.
+        Use sequential ids instead of random.
   -t Timeout
-    	Timeout for each query (default 700ms)
-  -v	Display version and exit.
+        Timeout for each query (default 700ms)
+  -v    Display version and exit.
 ```
 
 Sample run
