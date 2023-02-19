@@ -66,8 +66,8 @@ func Main() int {
 	seqIDFlag := flag.Bool("sequential-id", false, "Use sequential ids instead of random.")
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
-	cli.Config.MinArgs = 2
-	cli.Config.ArgsHelp = "query server\neg:\tdnsping www.google.com. 8.8.8.8"
+	cli.MinArgs = 2
+	cli.ArgsHelp = "query server\neg:\tdnsping www.google.com. 8.8.8.8"
 	cli.Main()
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
 	if !exists {
@@ -151,7 +151,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		howManyStr = "until interrupted"
 	}
 	log.Infof("dnsping %s: will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
-		cli.Config.ShortVersion, howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
+		cli.ShortVersion, howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
