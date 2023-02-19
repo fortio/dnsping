@@ -3,15 +3,16 @@
 # Basic usage test
 ! dnsping
 ! stdout .
-stderr 'need exactly 2 arguments outside of the flags, got 0'
+stderr 'Exactly 2 arguments expected, got 0'
 
 # (short) version
-dnsping -v
-stdout 'dev'
+dnsping version
+stdout '^dev$'
 ! stderr .
 
 # (long) version
-dnsping version
+dnsping buildinfo
+stdout '^dev  go'
 stdout 'path	fortio.org/dnsping'
 ! stderr .
 

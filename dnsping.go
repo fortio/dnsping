@@ -25,20 +25,11 @@ import (
 	"syscall"
 	"time"
 
+	"fortio.org/cli"
 	"fortio.org/fortio/stats"
 	"fortio.org/log"
-	"fortio.org/version"
 	"github.com/miekg/dns"
 )
-
-// Version is the version of the command, replace at link time to match the git tag for release builds.
-var Version = "dev"
-
-func usage() {
-	fmt.Fprintln(flag.CommandLine.Output(),
-		"dnsping "+Version+" usage:\n\tdnsping [flags] query server\neg:\tdnsping www.google.com. 127.0.0.1\nwith flags:")
-	flag.PrintDefaults()
-}
 
 // DNSPingConfig is the input configuration for DNSPing().
 type DNSPingConfig struct {
@@ -72,29 +63,12 @@ func Main() int {
 	timeoutFlag := flag.Duration("t", 700*time.Millisecond, "`Timeout` for each query")
 	countFlag := flag.Int("c", 0, "How many `requests` to make. Default is to run until ^C")
 	queryTypeFlag := flag.String("q", "A", "Query `type` to use (A, AAAA, SOA, CNAME...)")
-	versionFlag := flag.Bool("v", false, "Display version and exit.")
 	seqIDFlag := flag.Bool("sequential-id", false, "Use sequential ids instead of random.")
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
-	// make logger be less about debug by default
-	log.SetDefaultsForClientTools()
-	log.LoggerStaticFlagSetup()
-	var fullVersion string
-	Version, _, fullVersion = version.FromBuildInfo()
-	flag.CommandLine.Usage = usage
-	flag.Parse()
-	args := flag.Args()
-	nArgs := len(args)
-	log.LogVf("got %d arguments: %v", nArgs, args)
-	if *versionFlag {
-		// Short version, used by the build system
-		fmt.Println(Version)
-		return 0
-	}
-	if nArgs > 0 && args[0] == "version" {
-		fmt.Print(fullVersion)
-		return 0
-	}
+	cli.Config.MinArgs = 2
+	cli.Config.ArgsHelp = "query server\neg:\tdnsping www.google.com. 8.8.8.8"
+	cli.Main()
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
 	if !exists {
 		keys := []string{}
@@ -104,18 +78,13 @@ func Main() int {
 		sort.Strings(keys)
 		return log.FErrf("Invalid -q type name %q, should be one of %v", *queryTypeFlag, keys)
 	}
-	if nArgs != 2 {
-		fmt.Fprintf(os.Stderr, "Error: need exactly 2 arguments outside of the flags, got %d\n", nArgs)
-		usage()
-		return 1
-	}
-	server := args[1]
+	server := flag.Arg(1)
 	if strings.Contains(server, ":") && !strings.HasPrefix(server, "[") {
 		server = "[" + server + "]"
 		log.Infof("Adding [] around detected input IPv6 server ip info: %s", server)
 	}
 	addrStr := fmt.Sprintf("%s:%d", server, *portFlag)
-	query := args[0]
+	query := flag.Arg(0)
 	if !strings.HasSuffix(query, ".") {
 		query += "."
 		log.LogVf("Adding missing . to query, now %q", query)
@@ -182,7 +151,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		howManyStr = "until interrupted"
 	}
 	log.Infof("dnsping %s: will query %s, sleeping %v in between, the server %s for %s (%d) record for %s",
-		Version, howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
+		cli.Config.ShortVersion, howManyStr, cfg.Interval, cfg.Server, qtS, cfg.QueryType, cfg.Query)
 	log.LogVf("Query is: %v", m)
 	successCount := 0
 	errorCount := 0
