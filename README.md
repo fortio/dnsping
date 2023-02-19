@@ -20,14 +20,17 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 `dnsping [flags] query server`
 
 <!-- generate using
-go run . -h 2>&1 | expand | fold -s -w 90 | sed -e "s/ $//" -e "s/</\&lt;/"
+go run . help | expand | fold -s -w 90 | sed -e "s/ $//" -e "s/</\&lt;/"
+and remove the full path on the special args line
 -->
 ```Shell
-$ dnsping -h
-dnsping 1.3.0 usage:
+$ dnsping help
+dnsping 1.4.0 usage:
         dnsping [flags] query server
-eg:     dnsping www.google.com. 127.0.0.1
-with flags:
+eg:     dnsping www.google.com. 8.8.8.8
+or 1 of the special arguments
+        dnsping {help|version|buildinfo}
+flags:
   -c requests
         How many requests to make. Default is to run until ^C
   -fixed-id int
@@ -44,11 +47,12 @@ with flags:
         Port to connect to (default 53)
   -q type
         Query type to use (A, AAAA, SOA, CNAME...) (default "A")
+  -quiet
+        Quiet mode, sets log level to warning
   -sequential-id
         Use sequential ids instead of random.
   -t Timeout
         Timeout for each query (default 700ms)
-  -v    Display version and exit.
 ```
 
 Sample run
