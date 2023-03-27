@@ -7,12 +7,11 @@ require (
 	fortio.org/fortio v1.53.1
 	fortio.org/log v1.3.0
 	github.com/miekg/dns v1.1.52
-	github.com/rogpeppe/go-internal v1.9.0
+	github.com/rogpeppe/go-internal v1.10.0
 )
 
 require (
 	fortio.org/version v1.0.2 // indirect
-	github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e // indirect
 	golang.org/x/mod v0.8.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
