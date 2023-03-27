@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	fortio.org/cli v1.1.0
-	fortio.org/fortio v1.53.1
+	fortio.org/fortio v1.54.0
 	fortio.org/log v1.3.0
 	github.com/miekg/dns v1.1.52
 	github.com/rogpeppe/go-internal v1.9.0
