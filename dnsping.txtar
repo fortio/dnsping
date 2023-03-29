@@ -1,24 +1,24 @@
 # testscript framework tests for dnsping command line
 
 # Basic usage test
-! dnsping
-! stdout .
+!dnsping
+!stdout .
 stderr 'Exactly 2 arguments expected, got 0'
 
 # (short) version
 dnsping version
 stdout '^dev$'
-! stderr .
+!stderr .
 
 # (long) version
 dnsping buildinfo
 stdout '^dev  go'
 stdout 'path	fortio.org/dnsping'
-! stderr .
+!stderr .
 
 # bad -q type
-! dnsping -q foo www.google.com 8.8.8.8
-! stdout .
+!dnsping -q foo www.google.com 8.8.8.8
+!stdout .
 stderr 'F Invalid -q type name "foo", should be one of'
 
 # good -q type
@@ -31,8 +31,8 @@ dnsping -c 1 www.google.com 2001:4860:4860::8888
 stderr 'Adding \[] around detected input IPv6 server ip info: \[2001:4860:4860::8888]'
 
 # -foo (bad flag)
-! dnsping -foo
-! stdout .
+!dnsping -foo
+!stdout .
 stderr 'flag provided but not defined: -foo'
 
 # basic test
@@ -54,7 +54,7 @@ stderr 'id: 2'
 dnsping -c 1 doesnnotexist.fortio.org  8.8.8.8
 stdout '1 error \(100.00%\), 0 success.'
 stderr 'server error'
-! stderr '1: \[]'
+!stderr '1: \[]'
 
 # json stdout
 dnsping -c 1 -json - www.google.com 8.8.8.8
@@ -63,7 +63,7 @@ stderr 'Successfully wrote .* bytes of Json data to stdout'
 
 # json can't write to file
 chmod 000 notwriteable.json
-! dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
+!dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
 stderr 'F Unable to create notwriteable.json: open notwriteable.json: permission denied'
 
 # json writing to file
