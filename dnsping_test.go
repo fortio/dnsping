@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/rogpeppe/go-internal/testscript"
+	"fortio.org/testscript"
 )
 
 func TestMain(m *testing.M) {
