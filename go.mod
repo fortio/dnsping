@@ -7,7 +7,7 @@ require (
 	fortio.org/fortio v1.54.0
 	fortio.org/log v1.3.0
 	fortio.org/testscript v0.3.1
-	github.com/miekg/dns v1.1.53
+	github.com/miekg/dns v1.1.54
 )
 
 require (
