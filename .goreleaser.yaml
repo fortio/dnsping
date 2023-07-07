@@ -8,12 +8,6 @@ builds:
     goarch:
       - amd64
       - arm64
-archives:
-  - replacements:
-      darwin: Mac
-      linux: Linux
-      windows: Windows
-      amd64: x86_64
 checksum:
   name_template: "checksums.txt"
 snapshot:
@@ -56,7 +50,7 @@ release:
 brews:
   -
     # GitHub/GitLab repository to push the formula to
-    tap:
+    repository:
       owner: fortio
       name: homebrew-tap
 
