@@ -4,7 +4,7 @@
     "Query": "www.google.com.",
     "HowMany": 8,
     "Interval": 1000000000,
-    "Timeout": 700000000,
+    "Timeout": 100000000,
     "FixedID": 42,
     "QueryType": 1,
     "SequentialIDs": false,
@@ -14,39 +14,57 @@
   "Success": 7,
   "Stats": {
     "Count": 8,
-    "Min": 8.684216,
-    "Max": 700.257965,
-    "Sum": 798.3434060000001,
-    "Avg": 99.79292575000001,
-    "StdDev": 226.96508473843934,
+    "Min": 19.952959,
+    "Max": 100.43549999999999,
+    "Sum": 433.67841699999997,
+    "Avg": 54.209802124999996,
+    "StdDev": 26.44301240642222,
     "Data": [
       {
-        "Start": 8.684216,
-        "End": 9,
+        "Start": 19.952959,
+        "End": 20,
         "Percent": 12.5,
         "Count": 1
       },
       {
-        "Start": 12,
-        "End": 14,
+        "Start": 20,
+        "End": 25,
         "Percent": 25,
         "Count": 1
       },
       {
-        "Start": 14,
-        "End": 16,
-        "Percent": 75,
-        "Count": 4
+        "Start": 40,
+        "End": 45,
+        "Percent": 37.5,
+        "Count": 1
       },
       {
-        "Start": 16,
-        "End": 18,
+        "Start": 45,
+        "End": 50,
+        "Percent": 50,
+        "Count": 1
+      },
+      {
+        "Start": 50,
+        "End": 60,
+        "Percent": 62.5,
+        "Count": 1
+      },
+      {
+        "Start": 60,
+        "End": 70,
+        "Percent": 75,
+        "Count": 1
+      },
+      {
+        "Start": 80,
+        "End": 90,
         "Percent": 87.5,
         "Count": 1
       },
       {
-        "Start": 500,
-        "End": 700.257965,
+        "Start": 100,
+        "End": 100.43549999999999,
         "Percent": 100,
         "Count": 1
       }
@@ -54,15 +72,15 @@
     "Percentiles": [
       {
         "Percentile": 50,
-        "Value": 15
+        "Value": 50
       },
       {
         "Percentile": 90,
-        "Value": 540.051593
+        "Value": 100.08709999999999
       },
       {
         "Percentile": 99,
-        "Value": 684.2373278
+        "Value": 100.40065999999999
       }
     ]
   }
