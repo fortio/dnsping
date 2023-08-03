@@ -19,7 +19,7 @@ stdout 'path	fortio.org/dnsping'
 # bad -q type
 !dnsping -q foo www.google.com 8.8.8.8
 !stdout .
-stderr 'F Invalid -q type name "foo", should be one of'
+stderr '\[F\] Invalid -q type name "foo", should be one of'
 
 # good -q type
 dnsping -c 1 -q aaaa www.google.com 8.8.8.8
@@ -64,7 +64,7 @@ stderr 'Successfully wrote .* bytes of Json data to stdout'
 # json can't write to file
 chmod 000 notwriteable.json
 !dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
-stderr 'F Unable to create notwriteable.json: open notwriteable.json: permission denied'
+stderr '\[F\] Unable to create notwriteable.json: open notwriteable.json: permission denied'
 
 # json writing to file
 dnsping -c 1 -json ok.json www.google.com 8.8.8.8

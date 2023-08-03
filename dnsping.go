@@ -201,10 +201,9 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 			log.Errf(format+"server error: %v", durationMS, i, err)
 			errorCount++
 			continue
-		} else {
-			successCount++
 		}
-		log.Infof(format+"%v", durationMS, i, r.Answer)
+		successCount++
+		log.Printf(format+"%v", durationMS, i, r.Answer)
 	}
 	perc := fmt.Sprintf("%.02f%%", 100.*float64(errorCount)/float64(errorCount+successCount))
 	plural := "s" // 0 errors 1 error 2 errors...
