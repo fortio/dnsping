@@ -59,11 +59,11 @@ flags:
     	Timeout for each query (default 700ms)
 ```
 
-Sample run (colorized when on console, this is the no color variant)
+Sample run (colorized when on console)
 
 ![Color Output](color.png)
 
-Text version:
+Plain text / no-color version:
 ```bash
 $ dnsping -fixed-id 42 -json sampleResult.json -c 8 -t 100ms  www.google.com 8.8.4.4
 12:39:49.674 [INF] dnsping dev: will query 8 times, sleeping 1s in between, the server 8.8.4.4:53 for A (1) record for www.google.com.
