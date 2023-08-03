@@ -25,38 +25,45 @@ and remove the full path on the special args line
 -->
 ```Shell
 $ dnsping help
-dnsping 1.4.0 usage:
-        dnsping [flags] query server
-eg:     dnsping www.google.com. 8.8.8.8
+dnsping 1.x.y usage:
+      dnsping [flags] query server
+eg:	  dnsping www.google.com. 8.8.8.8
 or 1 of the special arguments
-        dnsping {help|version|buildinfo}
+	    dnsping {help|version|buildinfo}
 flags:
   -c requests
-        How many requests to make. Default is to run until ^C
+    	How many requests to make. Default is to run until ^C
   -fixed-id int
-        Non 0 id to use instead of random or sequential
+    	Non 0 id to use instead of random or sequential
   -i wait
-        How long to wait between requests (default 1s)
+    	How long to wait between requests (default 1s)
   -json path
-        Json output to provided file path or '-' for stdout (empty = no json output)
+    	Json output to provided file path or '-' for stdout (empty = no json output)
+  -logger-force-color
+    	Force color output even if stderr isn't a terminal
+  -logger-no-color
+    	Prevent colorized output even if stderr is a terminal
   -loglevel level
-        log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
+    	log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
   -no-recursion
-        Pass to disable (default) recursion.
+    	Pass to disable (default) recursion.
   -p Port
-        Port to connect to (default 53)
+    	Port to connect to (default 53)
   -q type
-        Query type to use (A, AAAA, SOA, CNAME...) (default "A")
+    	Query type to use (A, AAAA, SOA, CNAME...) (default "A")
   -quiet
-        Quiet mode, sets log level to warning
+    	Quiet mode, sets loglevel to Error (quietly) to reduces the output
   -sequential-id
-        Use sequential ids instead of random.
+    	Use sequential ids instead of random.
   -t Timeout
-        Timeout for each query (default 700ms)
+    	Timeout for each query (default 700ms)
 ```
 
 Sample run (colorized when on console, this is the no color variant)
 
+![Color Output](color.png)
+
+Text version:
 ```bash
 $ dnsping -fixed-id 42 -json sampleResult.json -c 8 -t 100ms  www.google.com 8.8.4.4
 12:39:49.674 [INF] dnsping dev: will query 8 times, sleeping 1s in between, the server 8.8.4.4:53 for A (1) record for www.google.com.
@@ -158,6 +165,5 @@ Which also produces the json:
 }
 ```
 
-![Color Output](color.png)
 
 Made thanks to https://github.com/miekg/dns (and https://github.com/fortio/fortio stats and logger)
