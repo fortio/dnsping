@@ -25,60 +25,71 @@ and remove the full path on the special args line
 -->
 ```Shell
 $ dnsping help
-dnsping 1.4.0 usage:
-        dnsping [flags] query server
-eg:     dnsping www.google.com. 8.8.8.8
+dnsping 1.x.y usage:
+      dnsping [flags] query server
+eg:   dnsping www.google.com. 8.8.8.8
 or 1 of the special arguments
-        dnsping {help|version|buildinfo}
+      dnsping {help|version|buildinfo}
 flags:
   -c requests
-        How many requests to make. Default is to run until ^C
+    	How many requests to make. Default is to run until ^C
   -fixed-id int
-        Non 0 id to use instead of random or sequential
+    	Non 0 id to use instead of random or sequential
   -i wait
-        How long to wait between requests (default 1s)
+    	How long to wait between requests (default 1s)
   -json path
-        Json output to provided file path or '-' for stdout (empty = no json output)
+    	Json output to provided file path or '-' for stdout (empty = no json output)
+  -logger-force-color
+    	Force color output even if stderr isn't a terminal
+  -logger-no-color
+    	Prevent colorized output even if stderr is a terminal
   -loglevel level
-        log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
+    	log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
   -no-recursion
-        Pass to disable (default) recursion.
+    	Pass to disable (default) recursion.
   -p Port
-        Port to connect to (default 53)
+    	Port to connect to (default 53)
   -q type
-        Query type to use (A, AAAA, SOA, CNAME...) (default "A")
+    	Query type to use (A, AAAA, SOA, CNAME...) (default "A")
   -quiet
-        Quiet mode, sets log level to warning
+    	Quiet mode, sets loglevel to Error (quietly) to reduces the output
   -sequential-id
-        Use sequential ids instead of random.
+    	Use sequential ids instead of random.
   -t Timeout
-        Timeout for each query (default 700ms)
+    	Timeout for each query (default 700ms)
 ```
 
-Sample run
-```
-dnsping -fixed-id 42 -json sampleResult.json -c 8  www.google.com 8.8.4.4
-16:08:03 I Will query 8 times, sleeping 1s in between, the server 8.8.4.4:53 for A (1) record for www.google.com.
-16:08:03 I   8.7 ms   1: [www.google.com.	298	IN	A	172.217.6.68]
-16:08:04 I  16.5 ms   2: [www.google.com.	229	IN	A	172.217.6.36]
-16:08:05 I  14.1 ms   3: [www.google.com.	179	IN	A	216.58.194.196]
-16:08:06 E 700.3 ms   4: failed call: read udp 10.10.50.62:65456->8.8.4.4:53: i/o timeout
-16:08:07 I  15.0 ms   5: [www.google.com.	195	IN	A	216.58.194.196]
-16:08:08 I  13.5 ms   6: [www.google.com.	196	IN	A	216.58.194.196]
-16:08:09 I  14.8 ms   7: [www.google.com.	179	IN	A	216.58.194.196]
-16:08:10 I  15.5 ms   8: [www.google.com.	285	IN	A	172.217.6.68]
+Sample run (colorized when on console)
+
+![Color Output](color.png)
+
+Plain text / no-color version:
+```bash
+$ dnsping -fixed-id 42 -json sampleResult.json -c 8 -t 100ms  www.google.com 8.8.4.4
+12:39:49.674 [INF] dnsping dev: will query 8 times, sleeping 1s in between, the server 8.8.4.4:53 for A (1) record for www.google.com.
+12:39:49.741  66.7 ms   1: [www.google.com.	82	IN	A	142.251.214.132]
+12:39:50.727  50.1 ms   2: [www.google.com.	81	IN	A	142.251.214.132]
+12:39:51.696  20.0 ms   3: [www.google.com.	207	IN	A	172.217.164.100]
+12:39:52.805 [ERR] 100.4 ms   4: failed call: read udp 192.168.110.117:0->8.8.4.4:53: i/o timeout
+12:39:53.719  22.3 ms   5: [www.google.com.	13	IN	A	142.250.189.164]
+12:39:54.761  84.5 ms   6: [www.google.com.	135	IN	A	142.251.46.164]
+12:39:55.723  46.1 ms   7: [www.google.com.	202	IN	A	172.217.164.100]
+12:39:56.720  43.6 ms   8: [www.google.com.	133	IN	A	142.251.46.164]
 1 error (12.50%), 7 success.
-response time (in ms) : count 8 avg 99.792926 +/- 227 min 8.684216 max 700.257965 sum 798.343406
+response time (in ms) : count 8 avg 54.209802 +/- 26.44 min 19.952959 max 100.43549999999999 sum 433.678417
 # range, mid point, percentile, count
->= 8.68422 <= 9 , 8.84211 , 12.50, 1
-> 12 <= 14 , 13 , 25.00, 1
-> 14 <= 16 , 15 , 75.00, 4
-> 16 <= 18 , 17 , 87.50, 1
-> 500 <= 700.258 , 600.129 , 100.00, 1
-# target 50% 15
-# target 90% 540.052
-# target 99% 684.237
-Successfully wrote 1212 bytes of Json data to sampleResult.json
+>= 19.953 <= 20 , 19.9765 , 12.50, 1
+> 20 <= 25 , 22.5 , 25.00, 1
+> 40 <= 45 , 42.5 , 37.50, 1
+> 45 <= 50 , 47.5 , 50.00, 1
+> 50 <= 60 , 55 , 62.50, 1
+> 60 <= 70 , 65 , 75.00, 1
+> 80 <= 90 , 85 , 87.50, 1
+> 100 <= 100.435 , 100.218 , 100.00, 1
+# target 50% 50
+# target 90% 100.087
+# target 99% 100.401
+Successfully wrote 1548 bytes of Json data to sampleResult.json
 ```
 
 Which also produces the json:
@@ -153,5 +164,6 @@ Which also produces the json:
   }
 }
 ```
+
 
 Made thanks to https://github.com/miekg/dns (and https://github.com/fortio/fortio stats and logger)
