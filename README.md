@@ -27,9 +27,9 @@ and remove the full path on the special args line
 $ dnsping help
 dnsping 1.x.y usage:
       dnsping [flags] query server
-eg:	  dnsping www.google.com. 8.8.8.8
+eg:   dnsping www.google.com. 8.8.8.8
 or 1 of the special arguments
-	    dnsping {help|version|buildinfo}
+      dnsping {help|version|buildinfo}
 flags:
   -c requests
     	How many requests to make. Default is to run until ^C
