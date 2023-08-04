@@ -23,7 +23,7 @@ Otherwise head over to https://github.com/fortio/dnsping/releases for binary rel
 go run . help | expand | fold -s -w 90 | sed -e "s/ $//" -e "s/</\&lt;/"
 and remove the full path on the special args line
 -->
-```Shell
+```
 $ dnsping help
 dnsping 1.x.y usage:
       dnsping [flags] query server
@@ -64,7 +64,7 @@ Sample run (colorized when on console)
 ![Color Output](color.png)
 
 Plain text / no-color version:
-```bash
+```
 $ dnsping -fixed-id 42 -json sampleResult.json -c 8 -t 100ms  www.google.com 8.8.4.4
 12:39:49.674 [INF] dnsping dev: will query 8 times, sleeping 1s in between, the server 8.8.4.4:53 for A (1) record for www.google.com.
 12:39:49.741  66.7 ms   1: [www.google.com.	82	IN	A	142.251.214.132]
