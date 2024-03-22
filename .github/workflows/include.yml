@@ -17,6 +17,7 @@ jobs:
     call-codeql:
         uses: fortio/workflows/.github/workflows/codeql-analysis.yml@main
     call-releaser:
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: fortio/workflows/.github/workflows/releaser.yml@main
         with:
             description: "Fortio DNSping checks packet loss and latency issues with DNS servers"
