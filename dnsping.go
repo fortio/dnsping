@@ -176,11 +176,12 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 			case <-time.After(waitFor):
 			}
 		}
-		if cfg.FixedID != 0 {
+		switch {
+		case cfg.FixedID != 0:
 			m.Id = uint16(cfg.FixedID)
-		} else if cfg.SequentialIDs {
+		case cfg.SequentialIDs:
 			m.Id = uint16(i) // might wrap but it's fine
-		} else {
+		default:
 			m.Id = dns.Id()
 		}
 		r, duration, err := cli.Exchange(m, cfg.Server)
