@@ -1,3 +1,6 @@
+.goreleaser.yaml
+.golangci.yml
+dnsping
 # Binaries for programs and plugins
 *.exe
 *.exe~
