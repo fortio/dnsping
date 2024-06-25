@@ -1,8 +1,5 @@
-# Makefile to build dnsping's docker images as well as short cut
-# for local test/install
-#
-# See also release/release.sh and fortio's release/Readme.md
-#
+# Makefile for local tests, lint
+# (release is now goreleaser)
 
 PACKAGES ?= $(shell go list ./...)
 
