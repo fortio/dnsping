@@ -5,7 +5,7 @@ go 1.18
 require (
 	fortio.org/cli v1.6.0
 	fortio.org/fortio v1.65.0
-	fortio.org/log v1.12.2
+	fortio.org/log v1.14.0
 	fortio.org/testscript v0.3.1
 	github.com/miekg/dns v1.1.61
 )
