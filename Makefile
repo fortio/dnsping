@@ -22,10 +22,5 @@ test:
 lint: .golangci.yml
 	golangci-lint $(DEBUG_LINTERS) run $(LINT_PACKAGES)
 
-coverage:
-	./.circleci/coverage.sh
-	curl -s https://codecov.io/bash | bash
-
-
 .PHONY: lint coverage test
 
