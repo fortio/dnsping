@@ -6,7 +6,7 @@ require (
 	fortio.org/cli v1.9.0
 	fortio.org/fortio v1.66.1
 	fortio.org/log v1.16.0
-	fortio.org/testscript v0.3.1
+	fortio.org/testscript v0.3.2
 	github.com/miekg/dns v1.1.61
 )
 
