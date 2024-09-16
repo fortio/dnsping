@@ -28,6 +28,7 @@ import (
 	"fortio.org/cli"
 	"fortio.org/fortio/stats"
 	"fortio.org/log"
+	"fortio.org/safecast"
 	"github.com/miekg/dns"
 )
 
@@ -178,9 +179,9 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		}
 		switch {
 		case cfg.FixedID != 0:
-			m.Id = uint16(cfg.FixedID)
+			m.Id = safecast.MustConvert[uint16](cfg.FixedID)
 		case cfg.SequentialIDs:
-			m.Id = uint16(i) // might wrap but it's fine
+			m.Id = uint16(i) //nolint:gosec we do want to wrap, it's fine.
 		default:
 			m.Id = dns.Id()
 		}
