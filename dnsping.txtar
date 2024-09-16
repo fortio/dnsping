@@ -72,11 +72,11 @@ stderr 'Successfully wrote .* bytes of Json data to ok\.json'
 grep '"Server": "8.8.8.8:53",' ok.json
 
 # how to do this
-dnsping www.google.com 8.8.8.8 &
-exec sleep 3
-exec pkill -x dnsping # todo want something like kill %1 instead
-wait
-stderr 'will query until interrupted'
-stdout '0 errors \(0.00%\), [34] success.'
+[unix] dnsping www.google.com 8.8.8.8 &
+[unix] exec sleep 3
+[unix] exec pkill -x dnsping # todo want something like kill %1 instead
+[unix] wait
+[unix] stderr 'will query until interrupted'
+[unix] stdout '0 errors \(0.00%\), [34] success.'
 
 -- notwriteable.json --
