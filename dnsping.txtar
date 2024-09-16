@@ -62,9 +62,9 @@ stdout '"HowMany": 1,'
 stderr 'Successfully wrote .* bytes of Json data to stdout'
 
 # json can't write to file
-chmod 000 notwriteable.json
-!dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
-stderr '\[F\] Unable to create notwriteable.json: open notwriteable.json: permission denied'
+[unix] chmod 000 notwriteable.json
+[unix] !dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
+[unix] stderr '\[F\] Unable to create notwriteable.json: open notwriteable.json: permission denied'
 
 # json writing to file
 dnsping -c 1 -json ok.json www.google.com 8.8.8.8
