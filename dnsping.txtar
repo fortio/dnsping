@@ -66,7 +66,7 @@ stderr 'Successfully wrote .* bytes of Json data to stdout'
 [unix] !dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
 [unix] stderr '\[F\] Unable to create notwriteable.json: open notwriteable.json: permission denied'
 
-[windows] dnsping -c 1 -json notwriteable.json www.google.com
+[windows] dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
 
 # json writing to file
 dnsping -c 1 -json ok.json www.google.com 8.8.8.8
