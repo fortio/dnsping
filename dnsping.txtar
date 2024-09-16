@@ -66,17 +66,17 @@ stderr 'Successfully wrote .* bytes of Json data to stdout'
 [unix] !dnsping -c 1 -json notwriteable.json www.google.com 8.8.8.8
 [unix] stderr '\[F\] Unable to create notwriteable.json: open notwriteable.json: permission denied'
 
-# json writing to file
-dnsping -c 1 -json ok.json www.google.com 8.8.8.8
-stderr 'Successfully wrote .* bytes of Json data to ok\.json'
-grep '"Server": "8.8.8.8:53",' ok.json
-
-# how to do this
+# how to do this without pkill?
 [unix] dnsping www.google.com 8.8.8.8 &
 [unix] exec sleep 3
 [unix] exec pkill -x dnsping # todo want something like kill %1 instead
 [unix] wait
 [unix] stderr 'will query until interrupted'
 [unix] stdout '0 errors \(0.00%\), [34] success.'
+
+# json writing to file
+dnsping -c 1 -json ok.json www.google.com 8.8.8.8
+stderr 'Successfully wrote .* bytes of Json data to ok\.json'
+grep '"Server": "8.8.8.8:53",' ok.json
 
 -- notwriteable.json --
