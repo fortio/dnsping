@@ -181,7 +181,7 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		case cfg.FixedID != 0:
 			m.Id = safecast.MustConvert[uint16](cfg.FixedID)
 		case cfg.SequentialIDs:
-			m.Id = uint16(i) //nolint:gosec we do want to wrap, it's fine.
+			m.Id = uint16(i) //nolint:gosec // we do want to wrap, it's fine.
 		default:
 			m.Id = dns.Id()
 		}
