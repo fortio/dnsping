@@ -12,8 +12,8 @@ TEST_TIMEOUT:=90s
 OS:=$(shell go env GOOS)
 
 # Local test
-ifeq ($(OS),windows)
 test:
+ifeq ($(OS),windows)
 	@echo "Skipping tests on Windows until we can figure out what's wrong with testscript on windows."
 else
 	go test -timeout $(TEST_TIMEOUT) -race $(PACKAGES)
