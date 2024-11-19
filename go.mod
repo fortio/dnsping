@@ -1,6 +1,7 @@
 module fortio.org/dnsping
 
-go 1.21
+go 1.23.3
+
 require (
 	fortio.org/cli v1.9.2
 	fortio.org/fortio v1.68.0
