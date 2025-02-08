@@ -60,7 +60,7 @@ func main() {
 func Main() int {
 	jsonFlag := flag.String("json", "", "Json output to provided file `path` or '-' for stdout (empty = no json output)")
 	portFlag := flag.Int("p", 53, "`Port` to connect to")
-	intervalFlag := flag.Duration("i", 1*time.Second, "How long to `wait` between requests")
+	intervalFlag := flag.Duration("i", 1000*time.Millisecond, "How long to `wait` between requests")
 	timeoutFlag := flag.Duration("t", 700*time.Millisecond, "`Timeout` for each query")
 	countFlag := flag.Int("c", 0, "How many `requests` to make. Default is to run until ^C")
 	queryTypeFlag := flag.String("q", "A", "Query `type` to use (A, AAAA, SOA, CNAME...)")
