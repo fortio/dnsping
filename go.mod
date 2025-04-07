@@ -1,10 +1,11 @@
 module fortio.org/dnsping
 
 go 1.23.3
+toolchain go1.24.1
 
 require (
 	fortio.org/cli v1.9.2
-	fortio.org/fortio v1.68.1
+	fortio.org/fortio v1.69.0
 	fortio.org/log v1.17.1
 	fortio.org/safecast v1.0.0
 	fortio.org/testscript v0.3.2
@@ -12,12 +13,12 @@ require (
 )
 
 require (
-	fortio.org/struct2env v0.4.1 // indirect
+	fortio.org/struct2env v0.4.2 // indirect
 	fortio.org/version v1.0.4 // indirect
 	github.com/kortschak/goroutine v1.1.2 // indirect
-	golang.org/x/crypto/x509roots/fallback v0.0.0-20240904212608-c9da6b9a4008 // indirect
+	golang.org/x/crypto/x509roots/fallback v0.0.0-20250118192723-a8ea4be81f07 // indirect
 	golang.org/x/mod v0.23.0 // indirect
-	golang.org/x/net v0.37.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/tools v0.30.0 // indirect
