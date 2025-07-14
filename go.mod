@@ -8,7 +8,7 @@ require (
 	fortio.org/log v1.17.2
 	fortio.org/safecast v1.0.0
 	fortio.org/testscript v0.3.2
-	github.com/miekg/dns v1.1.66
+	github.com/miekg/dns v1.1.67
 )
 
 require (
@@ -20,5 +20,5 @@ require (
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sync v0.14.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/tools v0.32.0 // indirect
+	golang.org/x/tools v0.33.0 // indirect
 )
