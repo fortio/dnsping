@@ -43,6 +43,7 @@ type DNSPingConfig struct {
 	QueryType     uint16        // Type of query (dns.Type)
 	SequentialIDs bool          // true means sequential instead of random ids (assuming FixedID is 0)
 	Recursion     bool          // DNS recursion requested or not
+	TCP           bool          // Use TCP instead of UDP
 }
 
 // DNSPingResults is the aggregated results of the DNSPing() call including input. Ready for JSON serialization.
@@ -67,6 +68,7 @@ func Main() int {
 	seqIDFlag := flag.Bool("sequential-id", false, "Use sequential ids instead of random.")
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
+	tcpFlag := flag.Bool("tcp", false, "Use TCP instead of normal UDP")
 	cli.MinArgs = 2
 	cli.ArgsHelp = "query server\neg:\tdnsping www.google.com. 8.8.8.8"
 	cli.Main()
@@ -100,6 +102,7 @@ func Main() int {
 		SequentialIDs: *seqIDFlag,
 		FixedID:       *sameIDFlag,
 		Recursion:     !*recursionFlag,
+		TCP:           *tcpFlag,
 	}
 	r := DNSPing(&cfg)
 	if *jsonFlag == "" {
@@ -161,6 +164,10 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
 	continueRunning := true
 	cli := dns.Client{Timeout: cfg.Timeout}
+	if cfg.TCP {
+		log.Infof("Using TCP instead of UDP for DNS queries")
+		cli.Net = "tcp"
+	}
 	format := "%5.1f ms %3d: "
 	start := time.Now()
 	for i := 1; continueRunning && (howMany <= 0 || i <= howMany); i++ {
@@ -205,7 +212,11 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 			continue
 		}
 		successCount++
-		log.Printf(format+"%v", durationMS, i, r.Answer)
+		extra := ""
+		if r.Truncated {
+			extra = " (truncated: use tcp)"
+		}
+		log.Printf(format+"%v%s (%d bytes)", durationMS, i, r.Answer, extra, r.Len())
 	}
 	perc := fmt.Sprintf("%.02f%%", 100.*float64(errorCount)/float64(errorCount+successCount))
 	plural := "s" // 0 errors 1 error 2 errors...
