@@ -40,6 +40,13 @@ dnsping -c 2 www.google.com 8.8.8.8
 stderr 'will query 2 times, sleeping 1s in between, the server 8\.8\.8\.8:53 for A \(1\) record for www\.google\.com\.'
 stdout '0 errors \(0.00%\), 2 success.'
 
+# -tcp
+dnsping -c 1 -tcp www.google.com 8.8.8.8
+stderr 'Using TCP instead of UDP for DNS queries'
+
+# truncated response
+dnsping -c 1 -q txt microsoft.com 8.8.8.8
+stderr ' \(truncated: use tcp\)'
 
 # fixed id
 dnsping -loglevel debug -c 1 -fixed-id 42 www.google.com 8.8.8.8
