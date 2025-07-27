@@ -28,4 +28,7 @@ endif
 lint: .golangci.yml
 	golangci-lint $(DEBUG_LINTERS) run $(LINT_PACKAGES)
 
+coverage:
+	go test -race -coverprofile=coverage.out -covermode=atomic ./...
+
 .PHONY: lint coverage test
