@@ -8,7 +8,7 @@ require (
 	fortio.org/log v1.17.2
 	fortio.org/safecast v1.2.0
 	fortio.org/testscript v0.3.2
-	github.com/miekg/dns v1.1.67
+	github.com/miekg/dns v1.1.68
 )
 
 require (
