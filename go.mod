@@ -4,9 +4,9 @@ go 1.23.8
 
 require (
 	fortio.org/cli v1.10.0
-	fortio.org/fortio v1.71.1
+	fortio.org/fortio v1.71.2
 	fortio.org/log v1.17.2
-	fortio.org/safecast v1.0.0
+	fortio.org/safecast v1.2.0
 	fortio.org/testscript v0.3.2
 	github.com/miekg/dns v1.1.67
 )
