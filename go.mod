@@ -3,7 +3,7 @@ module fortio.org/dnsping
 go 1.23.8
 
 require (
-	fortio.org/cli v1.10.0
+	fortio.org/cli v1.11.0
 	fortio.org/fortio v1.71.2
 	fortio.org/log v1.17.2
 	fortio.org/safecast v1.2.0
