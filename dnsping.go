@@ -150,7 +150,7 @@ func JSONSave(res *DNSPingResults, jsonFileName string) int {
 }
 
 // DNSPing Runs the query howMany times against addrStr server, sleeping for interval time.
-func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
+func DNSPing(cfg *DNSPingConfig) *DNSPingResults { //nolint:funlen // yes it's long
 	m := new(dns.Msg)
 	if cfg.EDNS || cfg.DNSSECOK {
 		m.SetEdns0(4096, cfg.DNSSECOK)
@@ -224,6 +224,13 @@ func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 		extra := ""
 		if r.Truncated {
 			extra = " (truncated: use tcp)"
+		}
+		if edns := r.IsEdns0(); edns != nil {
+			dnssec := ""
+			if edns.Do() {
+				dnssec = " and DNSSEC OK"
+			}
+			extra += fmt.Sprintf(" (with EDNS0 %d%s)", edns.UDPSize(), dnssec)
 		}
 		log.Printf(format+"%v%s (%d bytes)", durationMS, i, r.Answer, extra, r.Len())
 	}
