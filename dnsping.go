@@ -70,7 +70,7 @@ func Main() int {
 	seqIDFlag := flag.Bool("sequential-id", false, "Use sequential ids instead of random.")
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
-	ednsFlag := flag.Bool("edns", false, "Use EDNS0")
+	ednsFlag := flag.Bool("edns", false, "Set EDNS0 4096")
 	dnssecFlag := flag.Bool("dnssec", false, "Set the DNSSEC OK bit")
 	tcpFlag := flag.Bool("tcp", false, "Use TCP instead of normal UDP")
 	cli.MinArgs = 2
