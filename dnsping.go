@@ -44,6 +44,8 @@ type DNSPingConfig struct {
 	SequentialIDs bool          // true means sequential instead of random ids (assuming FixedID is 0)
 	Recursion     bool          // DNS recursion requested or not
 	TCP           bool          // Use TCP instead of UDP
+	EDNS          bool          // Use EDNS0
+	DNSSECOK      bool          // Set the DNSSEC OK bit
 }
 
 // DNSPingResults is the aggregated results of the DNSPing() call including input. Ready for JSON serialization.
@@ -68,6 +70,8 @@ func Main() int {
 	seqIDFlag := flag.Bool("sequential-id", false, "Use sequential ids instead of random.")
 	sameIDFlag := flag.Int("fixed-id", 0, "Non 0 id to use instead of random or sequential")
 	recursionFlag := flag.Bool("no-recursion", false, "Pass to disable (default) recursion.")
+	ednsFlag := flag.Bool("edns", false, "Use EDNS0")
+	dnssecFlag := flag.Bool("dnssec", false, "Set the DNSSEC OK bit")
 	tcpFlag := flag.Bool("tcp", false, "Use TCP instead of normal UDP")
 	cli.MinArgs = 2
 	cli.ArgsHelp = "query server\neg:\tdnsping www.google.com. 8.8.8.8"
@@ -103,6 +107,8 @@ func Main() int {
 		FixedID:       *sameIDFlag,
 		Recursion:     !*recursionFlag,
 		TCP:           *tcpFlag,
+		EDNS:          *ednsFlag,
+		DNSSECOK:      *dnssecFlag,
 	}
 	r := DNSPing(&cfg)
 	if *jsonFlag == "" {
@@ -146,6 +152,9 @@ func JSONSave(res *DNSPingResults, jsonFileName string) int {
 // DNSPing Runs the query howMany times against addrStr server, sleeping for interval time.
 func DNSPing(cfg *DNSPingConfig) *DNSPingResults {
 	m := new(dns.Msg)
+	if cfg.EDNS || cfg.DNSSECOK {
+		m.SetEdns0(4096, cfg.DNSSECOK)
+	}
 	m.SetQuestion(cfg.Query, cfg.QueryType)
 	m.RecursionDesired = cfg.Recursion
 	qtS := dns.TypeToString[cfg.QueryType]

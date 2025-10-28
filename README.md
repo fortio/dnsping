@@ -32,31 +32,37 @@ or 1 of the special arguments
       dnsping {help|version|buildinfo}
 flags:
   -c requests
-    	How many requests to make. Default is to run until ^C
+         How many requests to make. Default is to run until ^C
+  -dnssec
+         Set the DNSSEC OK bit
+  -edns
+         Set EDNS0 4096
   -fixed-id int
-    	Non 0 id to use instead of random or sequential
+         Non 0 id to use instead of random or sequential
   -i wait
-    	How long to wait between requests (default 1s)
+         How long to wait between requests (default 1s)
   -json path
-    	Json output to provided file path or '-' for stdout (empty = no json output)
+         Json output to provided file path or '-' for stdout (empty = no json output)
   -logger-force-color
-    	Force color output even if stderr isn't a terminal
+         Force color output even if stderr isn't a terminal
   -logger-no-color
-    	Prevent colorized output even if stderr is a terminal
+         Prevent colorized output even if stderr is a terminal
   -loglevel level
-    	log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
+         log level, one of [Debug Verbose Info Warning Error Critical Fatal] (default Info)
   -no-recursion
-    	Pass to disable (default) recursion.
+         Pass to disable (default) recursion.
   -p Port
-    	Port to connect to (default 53)
+         Port to connect to (default 53)
   -q type
-    	Query type to use (A, AAAA, SOA, CNAME...) (default "A")
+         Query type to use (A, AAAA, SOA, CNAME...) (default "A")
   -quiet
-    	Quiet mode, sets loglevel to Error (quietly) to reduces the output
+         Quiet mode, sets loglevel to Error (quietly) to reduces the output
   -sequential-id
-    	Use sequential ids instead of random.
+         Use sequential ids instead of random.
   -t Timeout
-    	Timeout for each query (default 700ms)
+         Timeout for each query (default 700ms)
+  -tcp
+         Use TCP instead of normal UDP
 ```
 
 Sample run (colorized when on console)
