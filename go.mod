@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	fortio.org/cli v1.12.2
 	fortio.org/fortio v1.73.0
-	fortio.org/log v1.18.1
+	fortio.org/log v1.18.2
 	fortio.org/safecast v1.2.0
 	fortio.org/testscript v0.3.2
 	github.com/miekg/dns v1.1.67
