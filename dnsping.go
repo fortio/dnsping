@@ -78,7 +78,7 @@ func Main() int {
 	cli.Main()
 	qt, exists := dns.StringToType[strings.ToUpper(*queryTypeFlag)]
 	if !exists {
-		keys := []string{}
+		keys := make([]string, 0, len(dns.StringToType))
 		for k := range dns.StringToType {
 			keys = append(keys, k)
 		}
